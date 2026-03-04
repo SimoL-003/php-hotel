@@ -71,7 +71,11 @@ $hotels = [
                 echo "<tr>";
 
                 foreach ($hotel as $key => $value) {
-                    echo "<td> $value </td>";
+                    if (is_bool($value)) {
+                        echo "<td>" . ($value == true ? "Yes" : "No") . "</td>";
+                    } else {
+                        echo "<td> $value </td>";
+                    }
                 }
 
                 echo "</tr>";

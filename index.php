@@ -46,19 +46,23 @@ $hotels = [
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
     <title>PHP Hotels</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+          crossorigin="anonymous">
 </head>
 
-<body>
-    <h1>PHP Hotels</h1>
+<body class="container pt-5">
+    <h1 class="pb-3">PHP Hotels</h1>
 
-    <table>
+    <table class="table">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Parking</th>
-                <th>Vote</th>
-                <th>Distance to center</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Parking</th>
+                <th scope="col">Vote</th>
+                <th scope="col">Distance to center</th>
             </tr>
         </thead>
         <tbody>

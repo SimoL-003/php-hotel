@@ -36,6 +36,9 @@ $hotels = [
         'distance_to_center' => 50
     ],
 ];
+
+$parking = $_GET["parking"];
+$vote = $_GET["vote"];
 ?>
 
 <!DOCTYPE html>
@@ -50,10 +53,54 @@ $hotels = [
           rel="stylesheet"
           integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
           crossorigin="anonymous">
+
+    <style>
+        form {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .form-control {
+            display: inline;
+            width: auto;
+        }
+    </style>
 </head>
 
 <body class="container pt-5">
     <h1 class="pb-3">PHP Hotels</h1>
+
+    <h4>Filters</h4>
+    <form action="./"
+          method="GET"
+          class="pb-3">
+        <div class="form-check">
+            <input class="form-check-input"
+                   type="checkbox"
+                   name="parking"
+                   id="parking">
+            <label class="form-check-label"
+                   for="parking">
+                Parking
+            </label>
+        </div>
+        <div class="form-check">
+            <label for="vote"
+                   class="form-check-label">Vote</label>
+            <input type="number"
+                   name="vote"
+                   id="vote"
+                   min="1"
+                   max="5"
+                   class="form-control">
+
+        </div>
+        <div>
+            <button class="btn btn-primary mt-2"
+                    type="submit">Apply filters</button>
+        </div>
+    </form>
 
     <table class="table">
         <thead>
@@ -67,7 +114,23 @@ $hotels = [
         </thead>
         <tbody>
             <?php
-            foreach ($hotels as $hotel) {
+            $filtered_hotels = $hotels;
+
+            // PARKING FILTER
+            if ($parking === "on") {
+                $filtered_hotels = array_filter($filtered_hotels, function ($hotel) {
+                    return $hotel["parking"] === true;
+                });
+            }
+
+            // VOTE FILTER
+            if ($vote) {
+                $filtered_hotels = array_filter($filtered_hotels, function ($hotel) use ($vote) {
+                    return $hotel['vote'] >= $vote;
+                });
+            }
+
+            foreach ($filtered_hotels as $hotel) {
                 echo "<tr>";
 
                 foreach ($hotel as $key => $value) {

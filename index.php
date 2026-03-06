@@ -39,6 +39,23 @@ $hotels = [
 
 $parking = $_GET["parking"];
 $vote = $_GET["vote"];
+
+$filtered_hotels = $hotels;
+
+// PARKING FILTER
+if ($parking === "on") {
+    $filtered_hotels = array_filter($filtered_hotels, function ($hotel) {
+        return $hotel["parking"] === true;
+    });
+}
+
+// VOTE FILTER
+if ($vote) {
+    $filtered_hotels = array_filter($filtered_hotels, function ($hotel) use ($vote) {
+        return $hotel['vote'] >= $vote;
+    });
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -71,10 +88,12 @@ $vote = $_GET["vote"];
 <body class="container pt-5">
     <h1 class="pb-3">PHP Hotels</h1>
 
+    <!-- FORM FILTER -->
     <h4>Filters</h4>
     <form action="./"
           method="GET"
           class="pb-3">
+        <!-- Parking filter -->
         <div class="form-check">
             <input class="form-check-input"
                    type="checkbox"
@@ -85,6 +104,7 @@ $vote = $_GET["vote"];
                 Parking
             </label>
         </div>
+        <!-- Vote filter -->
         <div class="form-check">
             <label for="vote"
                    class="form-check-label">Vote</label>
@@ -96,13 +116,16 @@ $vote = $_GET["vote"];
                    class="form-control">
 
         </div>
+        <!-- Submit button -->
         <div>
             <button class="btn btn-primary mt-2"
                     type="submit">Apply filters</button>
         </div>
     </form>
 
+    <!-- HOTELS TABLE -->
     <table class="table">
+        <!-- Headings -->
         <thead>
             <tr>
                 <th scope="col">Name</th>
@@ -112,30 +135,16 @@ $vote = $_GET["vote"];
                 <th scope="col">Distance to center</th>
             </tr>
         </thead>
+        <!-- Hotel rows -->
         <tbody>
             <?php
-            $filtered_hotels = $hotels;
-
-            // PARKING FILTER
-            if ($parking === "on") {
-                $filtered_hotels = array_filter($filtered_hotels, function ($hotel) {
-                    return $hotel["parking"] === true;
-                });
-            }
-
-            // VOTE FILTER
-            if ($vote) {
-                $filtered_hotels = array_filter($filtered_hotels, function ($hotel) use ($vote) {
-                    return $hotel['vote'] >= $vote;
-                });
-            }
-
             foreach ($filtered_hotels as $hotel) {
                 echo "<tr>";
 
+                // Table data
                 foreach ($hotel as $key => $value) {
                     if (is_bool($value)) {
-                        echo "<td>" . ($value == true ? "Yes" : "No") . "</td>";
+                        echo "<td>" . ($value == true ? "Yes" : "No") . "</td>"; /* Formatting booleans data */
                     } else {
                         echo "<td> $value </td>";
                     }

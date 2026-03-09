@@ -50,7 +50,7 @@ if ($parking === "on") {
 }
 
 // VOTE FILTER
-if ($vote) {
+if ($vote && is_numeric($vote) && $vote < 6 && $vote > 0) {
     $filtered_hotels = array_filter($filtered_hotels, function ($hotel) use ($vote) {
         return $hotel['vote'] >= $vote;
     });
@@ -144,7 +144,7 @@ if ($vote) {
                 // Table data
                 foreach ($hotel as $key => $value) {
                     if (is_bool($value)) {
-                        echo "<td>" . ($value == true ? "Yes" : "No") . "</td>"; /* Formatting booleans data */
+                        echo "<td>" . ($value ? "Yes" : "No") . "</td>"; /* Formatting booleans data */
                     } else {
                         echo "<td> $value </td>";
                     }
